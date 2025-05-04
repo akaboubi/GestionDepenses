@@ -1,72 +1,79 @@
-# l'API de Gestion des Dépenses
 
-Cette API en .Net8/c# permet simplement, d'ajouter une dépense, consulter des dépenses avec pagination, consulter une dépense,et supprimer une dépense.
+# API de Gestion des Dépenses
+
+Cette API en .NET 8 / C# permet d'ajouter une dépense, consulter des dépenses avec pagination, consulter une dépense, et supprimer une dépense.
 
 ## Sommaire
 - [Installation](#installation)
-- [TestApi](#testApi)
-- [EndPoints](#endpoints)
+- [Test de l'API](#testapi)
+- [Endpoints](#endpoints)
 
 ## Installation
 
-### Clone de Repo
-cloner le repo "https://github.com/akaboubi/GestionDepenses.git" via bash ou avec Visual Studio 2022
+### Cloner le dépôt
+Cloner le dépôt :  
+`https://github.com/akaboubi/GestionDepenses.git`  
+Vous pouvez le faire via Git Bash ou directement dans Visual Studio 2022.
 
-Puis dans VS 2022 ouvrir la solution "DepensesTechnicalTest.sln"
+Ouvrir la solution `DepensesTechnicalTest.sln` dans Visual Studio.
 
-### dépendances à installer liées à EntityFramwork
-EntityFramwork --version 9.0.4
-Microsoft.EntityFrameworkCore.Design --version 9.0.4
-microsoft.entityframeworkcore.sqlserver --version 9.0.4
+### Dépendances Entity Framework à installer
+- `EntityFramework` — version 9.0.4  
+- `Microsoft.EntityFrameworkCore.Design` — version 9.0.4  
+- `Microsoft.EntityFrameworkCore.SqlServer` — version 9.0.4
 
-### Base de données/EntityFramwork
--J'ai installé SSMS 2020 pour se connecter au serveur de base de données.
+### Base de données & Entity Framework
 
--j'ai installé la version Express de SQL server voici le lien de téléchargement  : https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads
+1. j'ai installé **SQL Server Management Studio (SSMS)**.
+2. j'ai installé  **SQL Server Express Edition** :  
+   [Télécharger SQL Server](https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads)
+3. Se connecter à l’instance `.\SQLEXPRESS` via SSMS.
+4. j'ai Crée une base de données vide nommée **DepenseDatabase**.
+5. Vérifier la chaîne de connexion dans `appsettings.json`.
+6. Exécuter dans le terminal :
+   ``` dotnet ef database update
+   ```
+7. Vérifier que les tables `[Depenses]` et `[__EFMigrationsHistory]` sont créées.
+8. Ajouter quelques valeurs à la table `[Depenses]` via Swagger (POST).
 
--via SSMS j'ai utilisé l'instance .\SQLEXPRESS dans le nom de serveur pour se connecter, voir la chaine de connexion dans appsettings.json pour plus de détails sur le mode de connexion de l'API
-
--j'ai crée une base de données vide que j'ai nommé "DepenseDatabase".
-
--j'ai  exécuteé la commande "dotnet ef database update" en ligne de commande via le terminal de VS 2022 pour créer la base de données à partir de ma dernière migration (voir dossier Migrations pour plus de détails).
-
--Avant de tester, assurer vous que la commande "dotnet ef database update" est bien passé, puis vérifier que les deux tables[Depenses] et [__EFMigrationsHistory] sont crées.
-
--Remplir la tables [Depenses] avec quelques valeurs de test avant de commencer l'utilisation, vous pouvez utiliser le Endpoint POST de swagger. 
-
-- Si vous décider de passer vos propres migrations utiliser cette commande "dotnet ef migrations add 'nomdemigration'"
-
+**Remarque :** Si vous souhaitez créer vos propres migrations :  
+```dotnet ef migrations add "NomDeMigration"
+```
 
 ### Démarrer l'API localement
-Dans VS 2022 cliquer sur le bouton exécuter, puis attendre que le swagger se charge , URL "https://localhost:7275/swagger/index.html" avec les quatre endpoints (2 GET, 1 POST et 1 DELETE)
 
+Cliquez sur "Exécuter" dans Visual Studio 2022.  
+Swagger s'ouvrira à l'adresse :  
+`https://localhost:7275/swagger/index.html`  
+Vous y trouverez les 4 endpoints : (2 GET, 1 POST, 1 DELETE)
 
-## TestApi
+---
 
-Cette API permet de gérer les dépenses :
+## Test de l'API
 
-- Consulter la liste des dépenses qui existent avec pagination
+Cette API permet :
+
+- Consulter la liste des dépenses (avec pagination)
 - Créer une nouvelle dépense
-- Consulter une dépense existante
-- Supprimer une dépense existante
+- Consulter une dépense spécifique
+- Supprimer une dépense
 
+### Clé `nature` :
 
-### le clé Nature :
-Dans le JSON le clé "nature" désigne la nature de la dépense, et les contrôles sur les deux autres clés "distance" et "nombreInvites"  dépend de ce clé  "nature".
+- Si `nature == 0` : DEPLACEMENT ⇒ nécessite la clé `distance`
+- Si `nature == 1` : RESTAURANT ⇒ nécessite la clé `nombreInvites`
 
-Si Nature == 0 ==> c'est une dépense de nature DEPLACEMENT
-Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
+---
 
+## Endpoints
 
-## EndPoints
+### 1. Consulter une liste de dépenses paginée
 
-### 1. consulter une liste de dépenses paginé => changer le paramètre pageSize pour tester la pagination.
-
-**GET** `api/Depenses?pageNumber=1&pageSize=10`
-
+**GET** `/api/Depenses?pageNumber=1&pageSize=10`
 
 **Réponse :**
-```[
+```json
+[
   {
     "id": 1,
     "montant": 105,
@@ -95,37 +102,42 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
     "nombreInvites": null
   }
 ]
+```
 
-### 2. Récupérer une seule dépense via son id
-**GET** `/api/Depenses/id`
+### 2. Récupérer une dépense par ID
+
+**GET** `/api/Depenses/{id}`
 
 **Réponse :**
-```{
-    "id": 1,
-    "montant": 105,
-    "date": "2025-05-02T17:17:44.274",
-    "commentaire": "comment1",
-    "nature": 1,
-    "distance": null,
-    "nombreInvites": 2
+```json
+{
+  "id": 1,
+  "montant": 105,
+  "date": "2025-05-02T17:17:44.274",
+  "commentaire": "comment1",
+  "nature": 1,
+  "distance": null,
+  "nombreInvites": 2
 }
-
+```
 
 ### 3. Ajouter une dépense
+
 **POST** `/api/Depenses`
 
 **Requête :**
 ```json
 {
-  "montant":400,
+  "montant": 400,
   "date": "2025-05-04T15:00:09.142Z",
   "commentaire": "comment 4",
   "nature": 0,
   "distance": 200,
   "nombreInvites": null
 }
+```
 
-**Réponse 200 Success:**
+**Réponse 200 (Succès) :**
 ```json
 {
   "id": 8,
@@ -136,10 +148,11 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
   "distance": 200,
   "nombreInvites": null
 }
+```
 
 ### 4. Supprimer une dépense
-**DELETE** `/api/depenses/id`
 
-**Réponse 200 Success => Dépénse supprimé :**
+**DELETE** `/api/Depenses/{id}`
 
+**Réponse 200 (Succès) :**
 

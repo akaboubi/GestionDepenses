@@ -31,13 +31,15 @@ Ouvrir la solution `DepensesTechnicalTest.sln` dans Visual Studio.
 4. j'ai Crée une base de données vide nommée **DepenseDatabase**.
 5. Vérifier la chaîne de connexion dans `appsettings.json`.
 6. Exécuter dans le terminal :
-   ``` dotnet ef database update
+   ``` bash
+   dotnet ef database update
    ```
 7. Vérifier que les tables `[Depenses]` et `[__EFMigrationsHistory]` sont créées.
 8. Ajouter quelques valeurs à la table `[Depenses]` via Swagger (POST).
 
 **Remarque :** Si vous souhaitez créer vos propres migrations :  
-```dotnet ef migrations add "NomDeMigration"
+```bash
+dotnet ef migrations add "NomDeMigration"
 ```
 
 ### Démarrer l'API localement

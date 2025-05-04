@@ -94,7 +94,7 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
     "distance": 1,
     "nombreInvites": null
   }
-]```
+]
 
 ### 2. Récupérer une seule dépense via son id
 **GET** `/api/Depenses/id`
@@ -108,7 +108,7 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
     "nature": 1,
     "distance": null,
     "nombreInvites": 2
-}```
+}
 
 
 ### 3. Ajouter une dépense
@@ -123,7 +123,7 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
   "nature": 0,
   "distance": 200,
   "nombreInvites": null
-}```
+}
 
 **Réponse 200 Success:**
 ```json
@@ -135,7 +135,7 @@ Si Nature == 1 ==> c'est une dépense de nature RESTAURANT
   "nature": 0,
   "distance": 200,
   "nombreInvites": null
-}```
+}
 
 ### 4. Supprimer une dépense
 **DELETE** `/api/depenses/id`

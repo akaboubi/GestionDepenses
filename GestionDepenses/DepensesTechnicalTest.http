@@ -1,0 +1,6 @@
+@DepensesTechnicalTest_HostAddress = http://localhost:5299
+
+GET {{DepensesTechnicalTest_HostAddress}}/GestionDeDepenses/
+Accept: application/json
+
+###

@@ -37,9 +37,9 @@ Ouvrir la solution `DepensesTechnicalTest.sln` dans Visual Studio.
 7. Vérifier que les tables `[Depenses]` et `[__EFMigrationsHistory]` sont créées.
 8. Ajouter quelques valeurs à la table `[Depenses]` via Swagger (POST).
 
-**Remarque :** Si vous souhaitez créer vos propres migrations :  
+**Remarque :** si la table [Depenses] ne se crée pas dans la base de données, dans ce cas supprimer le dossier "\Migrations" puis regénérer de nouveau la migration initiale "FirstCreateDepenseDB" via cette commande
 ```bash
-dotnet ef migrations add "NomDeMigration"
+dotnet ef migrations add FirstCreateDepenseDB
 ```
 
 ### Démarrer l'API localement
